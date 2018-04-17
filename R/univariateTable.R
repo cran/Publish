@@ -51,6 +51,9 @@
 ##' @param ... saved as part of the result to be passed on to
 ##' \code{labelUnits}
 ##' @return List with one summary table element for each variable on the right hand side of formula.
+##' The summary tables can be combined with \code{rbind}. The function \code{summary.univariateTable}
+##' combines the tables, and shows p-values in custom format.
+##' The summary tables 
 ##' @author Thomas A. Gerds
 ##' @seealso summary.univariateTable, publish.univariateTable
 ##' @examples
@@ -61,8 +64,16 @@
 ##' ## same thing but less typing
 ##' utable(~age+gender+ height+weight,data=Diabetes)
 ##'
-##' ## summary by location
-##' univariateTable(location~age+gender+height+weight,data=Diabetes)
+##' ## summary by location: 
+##' univariateTable(location~Q(age)+gender+height+weight,data=Diabetes)
+##' ## continuous variables marked with Q() are (by default) summarized
+##' ## with median (IQR) and kruskal.test (with two groups equivalent to wilcox.test)
+##' ## variables not marked with Q() are (by default) summarized
+##' ## with mean (sd) and anova.glm(...,test="Chisq")
+##' ## the p-value of anova.glm with only two groups is similar
+##' ## but not exactly equal to that of a t.test
+##' ## categorical variables are (by default) summarized by count
+##' ## (percent) and anova.glm(...,family=binomial,test="Chisq")
 ##'
 ##' ## export result to csv
 ##' table1 = summary(univariateTable(location~age+gender+height+weight,data=Diabetes),
@@ -88,10 +99,16 @@
 ##' univariateTable(location~AgeGroups+gender+height+weight,
 ##'                 data=Diabetes)
 ##'
-##' ## Column percent
+##' ## Row percent
 ##' univariateTable(location~gender+age+AgeGroups,
 ##'                 data=Diabetes,
-##'                 column.percent=TRUE)
+##'                 column.percent=FALSE)
+##' 
+##' ## change of frequency format
+##' univariateTable(location~gender+age+AgeGroups,
+##'                 data=Diabetes,
+##'                 column.percent=FALSE,
+##'                 freq.format="percent(x) (n=count(x))")
 ##'
 ##' ## changing Labels
 ##' u <- univariateTable(location~gender+AgeGroups+ height + weight,
@@ -359,8 +376,8 @@ univariateTable <- function(formula,
                            px
                        },
                        "true"={
-                           if (is.character(data[,groupname])){
-                               data[,paste0(groupname,"asfactor")] <- factor(data[[groupname]])
+                           if (is.character(data[[groupname]])){
+                               data[[paste0(groupname,"asfactor")]] <- factor(data[[groupname]])
                                px <- kruskal.test(formula(paste0(v,"~",groupname,"asfactor")),data=data)$p.value
                            } else{
                                px <- kruskal.test(formula(paste(v,"~",groupname)),data=data)$p.value

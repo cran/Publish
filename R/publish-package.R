@@ -108,6 +108,8 @@ NULL
 #' @docType data
 #' @format A data frame with 27 observations on the following 9 variables.
 #' \describe{
+#' \item{Drug}{}
+#' \item{Time}{}
 #' \item{Drug.Time}{}
 #' \item{Dose}{}
 #' \item{Mean}{}
@@ -123,10 +125,17 @@ NULL
 ##' @examples
 ##'
 ##' data(CiTable)
-##' plotConfidence(x=CiTable[,6:8], labels=CiTable[,1:5])
+##' labellist <- split(CiTable[,c("Dose","Mean","SD","n")],CiTable[,"Drug"])
+##' labellist
+##' plotConfidence(x=CiTable[,c("HazardRatio","lower","upper")], labels=labellist)
 ##' 
 ##'
 NULL
 
-
-
+#' Publish package
+#'
+#' This package processes results of descriptive statistcs and regression analysis into final tables and figures of a manuscript
+#' @docType package
+#' @name Publish-package
+#' @importFrom data.table as.data.table copy data.table is.data.table melt rbindlist setnames setorder setcolorder setkey ":=" ".N" ".SD"
+NULL

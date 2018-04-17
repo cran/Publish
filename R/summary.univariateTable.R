@@ -37,7 +37,7 @@
 ##' summary(u,n=NULL)
 ##' summary(u,pvalue.digits=2,"age"="Age (years)","height"="Body height (cm)")
 ##'
-##' u2 <- univariateTable(location~age+gender+height+weight,
+##' u2 <- univariateTable(location~age+AgeGroups+gender+height+weight,
 ##'                 data=Diabetes)
 ##' summary(u2)
 ##' summary(u2,drop.reference=TRUE)
@@ -119,7 +119,7 @@ summary.univariateTable <- function(object,
                 || (is.character(drop.reference) && drop.reference[1]=="binary" && length(lev)==2)
                 || (is.character(drop.reference) && drop.reference[1]=="all")){
                 ## remove redundant line for reference level
-                lev <- lev[1]
+                lev <- lev[-1]
                 sum <- sum[-1,,drop=FALSE]
             }
         } else{

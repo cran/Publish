@@ -6,6 +6,8 @@
 \title{CiTable data}
 \format{A data frame with 27 observations on the following 9 variables.
 \describe{
+\item{Drug}{}
+\item{Time}{}
 \item{Drug.Time}{}
 \item{Dose}{}
 \item{Mean}{}
@@ -22,7 +24,9 @@ These data are used for testing Publish package functionality.
 \examples{
 
 data(CiTable)
-plotConfidence(x=CiTable[,6:8], labels=CiTable[,1:5])
+labellist <- split(CiTable[,c("Dose","Mean","SD","n")],CiTable[,"Drug"])
+labellist
+plotConfidence(x=CiTable[,c("HazardRatio","lower","upper")], labels=labellist)
 
 
 }

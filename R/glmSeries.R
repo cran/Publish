@@ -31,27 +31,22 @@
 ##' @export
 glmSeries <- function(formula,data,vars,...){
     ## ref <- glm(formula,data=data,...)
+    Missing=NULL
+    data.table::setDT(data)
+    data <- data[,c(all.vars(formula),vars),with=FALSE]
     glist <- lapply(vars,function(v){
         form.v <- update.formula(formula,paste(".~.+",v))
-        if (is.logical(data[,v]))
-            data[,v] <- factor(data[,v],levels=c("FALSE","TRUE"))
+        if (is.logical(data[[v]]))
+            data[[v]] <- factor(data[[v]],levels=c("FALSE","TRUE"))
         gf <- glm(form.v,data=data,...)
-        gf$call$data <- data
+        ## gf$call$data <- data
+        gf$model <- data
         nv <- length(gf$xlevels[[v]])
-        u <- summary(regressionTable(gf),print=FALSE)$regressionTable
-        first <- grep(v,u[,"Variable"])
-        if (nv>1)
-            sel <- seq(first,first+nv-1,1)
-        else
-            sel <- first
-        u <- u[sel,,drop=FALSE]
-        u
+        rtab <- regressionTable(gf)
+        rtab[[v]]
     })
-    u <- sapply(glist,NCOL)
-    if (any(v <- (u<max(u)))){
-        for (x in (1:length(glist))[v]){
-            glist[[x]] <- cbind(glist[[x]],data.frame("Missing"=rep("--",NROW(glist[[x]])),stringsAsFactors=FALSE))
-        }
-    }
-    do.call("rbind",glist)
+    out <- data.table::rbindlist(glist)
+    if (all(out$Missing%in%c("","0")))
+        out[,Missing:=NULL]
+    out[]
 }
