@@ -8,8 +8,9 @@
 univariateTable(formula, data = parent.frame(),
   summary.format = "mean(x) (sd(x))", Q.format = "median(x) [iqr(x)]",
   freq.format = "count(x) (percent(x))", column.percent = TRUE,
-  digits = c(1, 1, 3), short.groupnames, compare.groups = TRUE,
-  show.totals = TRUE, n = "inNames", outcome = NULL, na.rm = FALSE, ...)
+  digits = c(1, 1, 3), big.mark = ",", short.groupnames,
+  compare.groups = TRUE, show.totals = TRUE, n = "inNames",
+  outcome = NULL, na.rm = FALSE, ...)
 }
 \arguments{
 \item{formula}{Formula specifying the grouping variable (strata)
@@ -34,6 +35,8 @@ freq.format is used then column percentages are given instead of
 row percentages for categorical variables (factors).}
 
 \item{digits}{Number of digits}
+
+\item{big.mark}{For formatting large numbers (i.e., greater than 1,000). \code{""} turn this off.}
 
 \item{short.groupnames}{If \code{TRUE} group names are abbreviated.}
 
@@ -62,7 +65,6 @@ variables when calculating p-values.}
 List with one summary table element for each variable on the right hand side of formula.
 The summary tables can be combined with \code{rbind}. The function \code{summary.univariateTable}
 combines the tables, and shows p-values in custom format.
-The summary tables
 }
 \description{
 Categorical variables are summarized using counts and frequencies.
@@ -86,6 +88,7 @@ summary functions.
 }
 \examples{
 data(Diabetes)
+library(data.table)
 univariateTable(~age,data=Diabetes)
 univariateTable(~gender,data=Diabetes)
 univariateTable(~age+gender+ height+weight,data=Diabetes)
@@ -169,6 +172,13 @@ u2 <- summary(univariateTable(frame~BMI,
                               data=na.omit(Diabetes),
                               summary.format="median(x) (range(x))"))
 publish(rbind(u1,u2),digits=2)
+
+## Large number format (big.mark)
+Diabetes$AGE <- 1000*Diabetes$age
+u3 <- summary(univariateTable(frame~AGE,
+                              data=Diabetes,big.mark="'"))
+
+
 
 }
 \seealso{
