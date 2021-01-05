@@ -5,7 +5,7 @@ Title: Format Output of Various Routines in a Suitable Way for Reports
 Description: A bunch of convenience functions that transform the results of some basic statistical analyses
        into table format nearly ready for publication. This includes descriptive tables, tables of
        logistic regression and Cox regression results as well as forest plots. 
-Version: 2020.11.30
+Version: 2020.12.23
 Authors@R: c(person("Thomas A.", "Gerds", role = c("aut", "cre"),
                     email = "tag@biostat.ku.dk"),
              person("Christian", "Torp-Pedersen", role = "ctb"),
@@ -21,10 +21,10 @@ Suggests: riskRegression (>= 2020.09.07), testthat, smcfcs (>= 1.4.1),
 License: GPL (>= 2)
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2020-12-01 16:12:07 UTC; tag
+Packaged: 2021-01-04 14:02:56 UTC; tag
 Author: Thomas A. Gerds [aut, cre],
   Christian Torp-Pedersen [ctb],
   Klaus K Holst [ctb],
   Brice Ozenne [aut]
 Repository: CRAN
-Date/Publication: 2020-12-01 17:40:06 UTC
+Date/Publication: 2021-01-05 18:10:18 UTC
