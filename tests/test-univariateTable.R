@@ -3,9 +3,9 @@
 ## author: Thomas Alexander Gerds
 ## created: May  9 2015 (07:55) 
 ## Version: 
-## last-updated: Oct 22 2017 (17:33) 
+## last-updated: Apr  3 2022 (11:57) 
 ##           By: Thomas Alexander Gerds
-##     Update #: 8
+##     Update #: 10
 #----------------------------------------------------------------------
 ## 
 ### Commentary: 
@@ -83,5 +83,9 @@ test_that("Univariate table with stupid function",{
     publish(sux,org=TRUE)
 })
 }
+
+
+
+
 #----------------------------------------------------------------------
 ### test-univariateTable.R ends here
